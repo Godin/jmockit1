@@ -585,6 +585,7 @@ public final class MethodReader extends AnnotatedReader
 
    private void readInvokeDynamicInstruction() {
       int cpIndex = readItem();
+      // TODO reading from BSM
       int bsmStartIndex = readUnsignedShort(cpIndex);
       int nameCodeIndex = readItem(cpIndex + 2);
 

@@ -396,10 +396,29 @@ public class BytecodeReader
          case MTYPE:
             String methodDesc = readNonnullUTF8(constCodeIndex);
             return MethodType.create(methodDesc);
+         case CONDY:
+            return readDynamicConstant(constCodeIndex);
       // case HANDLE_BASE + [1..9]:
          default:
             return readMethodHandle(constCodeIndex);
       }
+   }
+
+   private Object readDynamicConstant(int constCodeIndex) {
+      int tag = readUnsignedByte(constCodeIndex);
+
+      // TODO bootstrap_method_attr_index
+
+      int nameIndex = readItem(constCodeIndex + 2);
+      String name = readNonnullUTF8(nameIndex);
+      String desc = readNonnullUTF8(nameIndex + 2);
+
+      return new Object() {  // TODO hopefully not unused
+         @Override
+         public String toString() {
+            return "CONDY";
+         }
+      };
    }
 
    @Nonnull
